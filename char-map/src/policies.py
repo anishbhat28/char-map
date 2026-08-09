@@ -35,7 +35,7 @@ class VelocityHistoryPolicy(Policy):
         for pe in range(physics.num_pes):
             h=self.history[pe]
             if not h: continue
-            pred=h[-1] if len(h)==1 else (h[-1] + horizon*self.cyclic_delta(h[-2],h[-1],physics.N))%physics.N
+            pred=h[-1] if len(h)==1 else (h[-1] + (horizon + 1)*self.cyclic_delta(h[-2],h[-1],physics.N))%physics.N
             out.append(Prediction(int(pred),pe,cycle+horizon*compute_latency,1.0))
         return out
 
