@@ -1,0 +1,17 @@
+simulation:
+  num_pes: 64
+  num_cells: 64
+  timesteps: 100
+  warmup_steps: 4
+physics:
+  domain_length: 1.0
+  velocity: 1.0
+  dt: 0.015625
+hardware:
+  hop_latency: 4
+  compute_latency: 4
+  local_capacity: 4
+  block_size_bytes: 256
+policy:
+  horizon: 1
+  velocity_error: 0.0
