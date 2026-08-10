@@ -278,3 +278,7 @@ class OracleWindowPolicy(Policy):
             )
 
         return out
+
+# Backward-compatible names used by existing tests/code.
+CharacteristicPolicy = CharacteristicWindowPolicy
+OraclePolicy = OracleWindowPolicy
