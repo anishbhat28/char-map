@@ -102,21 +102,23 @@ class VariableAdvection:
     def c(self) -> float:
         return self.c0
 
-    def velocity(
-        self,
-        x: float,
-        t: float,
-        scale: float = 1.0,
-    ) -> float:
-        x = x % self.L
+   def velocity(
+    self,
+    x: float,
+    t: float,
+    scale: float = 1.0,
+    amplitude_scale: float = 1.0,
+) -> float:
 
-        return scale * (
-            self.c0
-            + self.amplitude
-            * math.sin(2.0 * math.pi * x / self.L)
-            * math.cos(self.omega * t)
-        )
+    x = x % self.L
 
+    return scale * (
+        self.c0
+        + amplitude_scale
+        * self.amplitude
+        * math.sin(2.0 * math.pi * x / self.L)
+        * math.cos(self.omega * t)
+    )
     def _rk4_step(
         self,
         x: float,
