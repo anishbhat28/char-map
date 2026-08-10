@@ -120,47 +120,39 @@ class VariableAdvection:
         * math.cos(self.omega * t)
     )
     def _rk4_step(
-        self,
-        x: float,
-        t: float,
-        h: float,
-        velocity_scale: float = 1.0,
-    ) -> float:
+    self,
+    x,
+    t,
+    h,
+    velocity_scale=1.0,
+    amplitude_scale=1.0,
+):
+
+    def f(x_, t_):
+        return self.velocity(
+            x_,
+            t_,
+            scale=velocity_scale,
+            amplitude_scale=amplitude_scale,
+        )
+
+    k1 = f(x, t)
+    k2 = f(x + 0.5*h*k1, t + 0.5*h)
+    k3 = f(x + 0.5*h*k2, t + 0.5*h)
+    k4 = f(x + h*k3, t + h)
+
+    return (
+        x
+        + h/6.0
+        * (k1 + 2*k2 + 2*k3 + k4)
+    ) % self.L
         """
         Integrate dX/dt = c(X,t) one RK4 step.
 
         h may be negative because characteristics are integrated backward.
         """
 
-        def f(x_, t_):
-            return self.velocity(
-                x_,
-                t_,
-                scale=velocity_scale,
-            )
-
-        k1 = f(x, t)
-
-        k2 = f(
-            x + 0.5 * h * k1,
-            t + 0.5 * h,
-        )
-
-        k3 = f(
-            x + 0.5 * h * k2,
-            t + 0.5 * h,
-        )
-
-        k4 = f(
-            x + h * k3,
-            t + h,
-        )
-
-        x_new = x + (h / 6.0) * (
-            k1 + 2.0 * k2 + 2.0 * k3 + k4
-        )
-
-        return x_new % self.L
+        
 
     def characteristic(
         self,
